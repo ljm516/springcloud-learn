@@ -1,0 +1,31 @@
+server:
+  port: ${PORT}
+  env: "development"
+
+zuul:
+  addHostHeader: true
+  routes:
+    virgoConsumer:
+      path: /api/virgoConsumer/**
+      serviceId: virgo-consumer
+      stripPrefix: false
+    conviction:
+      path: /api/conviction/**
+      serviceId: conviction
+      stripPrefix: false
+
+
+management:
+  port: ${MPORT}
+
+eureka:
+  client.serviceUrl.defaultZone: http://ljm:_ljming@39.106.4.242:5001/eureka/
+  instance:
+    preferIpAdderss: true
+    leaseRenwalIntervalInSeconds: 3
+
+# 路由转发请求 hystrixCommand 执行超时时间
+hystrix.command.default.execuation.isolation.thread.timeoutInMilliseconds: 5000
+ribbon:
+  ConnectionTimeout: 3000
+  ReadTimeout: 3000

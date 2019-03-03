@@ -1,0 +1,48 @@
+	buildscript {
+		ext {
+			springBootVersion = '1.5.7.RELEASE'
+		}
+		repositories {
+			mavenCentral()
+		}
+		dependencies {
+			classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		}
+	}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+
+group = 'com.virgoConsumer'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+    mavenLocal()
+}
+
+
+ext {
+	springCloudVersion = 'Dalston.SR4'
+}
+
+dependencies {
+	compile('org.springframework.boot:spring-boot-starter-actuator')
+	compile('org.springframework.cloud:spring-cloud-starter-eureka-server')
+	compile('org.springframework.cloud:spring-cloud-starter-config')
+	compile('org.springframework.boot:spring-boot-starter-web')
+    compile group: "com.alibaba", name: "fastjson", version: "1.2.17"
+	compile('org.springframework.cloud:spring-cloud-starter-feign')
+	compile group: "top.ljming", name: "ljm-common", version: "1.0"
+    // 引入 springcloud hystrix（断路器）
+	compile('org.springframework.cloud:spring-cloud-starter-hystrix')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
+}

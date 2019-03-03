@@ -1,0 +1,54 @@
+server:
+  port: 8080
+  env: "development"
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/conviction_dev
+    username: root
+    password: 
+    testWhileIdle: true
+    validationQuery: SELECT 1
+
+  jpa:
+    hibernate:
+      ddl-auto: validation
+      naming.strategy: org.hibernate.cfg.DefaultNamingStrategy
+    database: mysql
+    show-sql: false
+    generate-ddl: false
+    properties.hibernate.dialect: org.hibernate.dialect.MySQL5Dialect
+
+flyway:
+  locations: db/migration
+  baseline-on-migrate: true
+
+feign.okhttp.enable: true
+
+logging:
+  level:
+    org:
+      springframework.security: INFO
+      hibernate.mapping: INFO
+      flywaydb: INFO
+
+logging.file: "/logs/applogs/${spring.application.name}.log"
+logging.pattern.file: "%d{yyyy-MM-dd HH:mm:ss}|%d{yyyy-MM-dd HH:mm:ss.SSS}|%p|${spring.application.name}|%X{X-B3-TraceId:-}|%X{X-B3-SpanId:-}|%X{X-Span-Export:-}|${PID:-}|%t|%logger|%m%n"
+server.tomcat.accesslog.enabled: true
+server.tomcat.accesslog.prefix: "${spring.application.name}"
+server.tomcat.accesslog.directory: "/logs/accesslogs"
+
+
+management:
+  port: 8090
+
+
+eureka:
+  client.serviceUrl.defaultZone: http://ljm:_ljming@localhost:5001/eureka/
+  instance:
+    preferIpAdderss: true
+    leaseRenwalIntervalInSeconds: 3
+
+# timout
+hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 5000
+

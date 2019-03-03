@@ -1,0 +1,65 @@
+group = 'com.eurekaServerDemo'
+version = '0.0.1-SNAPSHOT'
+
+
+repositories {
+    maven { url "http://maven.aliyun.com/nexus/content/groups/public" }
+    jcenter()
+    mavenLocal()
+}
+
+buildscript {
+	ext {
+		springBootVersion = '1.5.7.RELEASE'
+	}
+	repositories {
+		jcenter()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		classpath("se.transmode.gradle:gradle-docker:1.2")
+	}
+}
+
+group='springio'
+
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'docker'
+
+task buildDocker(type: Docker, dependsOn: build) {
+  applicationName = jar.baseName
+  dockerfile = file('Dockerfile')
+  doFirst {
+    copy {
+      from jar
+      into "${stageDir}/build/libs"
+    }
+  }
+}
+
+jar {
+    baseName = 'ljm-eureka-server'
+    version = '0.1.0'
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+ext {
+	springCloudVersion = 'Dalston.SR4'
+}
+
+dependencies {
+	compile('org.springframework.cloud:spring-cloud-config-server')
+    compile group: "org.springframework.cloud", name: "spring-cloud-starter-eureka-server"
+    compile group: "org.springframework.boot", name: "spring-boot-starter-security"
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
+}

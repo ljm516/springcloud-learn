@@ -1,0 +1,8 @@
+CREATE TABLE IF NOT EXISTS `role` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL COMMENT '角色名称',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `NAME_INDEX` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

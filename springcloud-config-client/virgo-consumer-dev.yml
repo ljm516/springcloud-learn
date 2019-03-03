@@ -1,0 +1,35 @@
+info:
+  profile: dev
+
+server:
+  port: ${port}
+  env: "development"
+
+feign.okhttp.enable: true
+
+logging:
+  level:
+    org:
+      springframework.security: INFO
+      hibernate.mapping: INFO
+      flywaydb: INFO
+
+logging.file: "/logs/applogs/${spring.application.name}.log"
+logging.pattern.file: "%d{yyyy-MM-dd HH:mm:ss}|%d{yyyy-MM-dd HH:mm:ss.SSS}|%p|${spring.application.name}|%X{X-B3-TraceId:-}|%X{X-B3-SpanId:-}|%X{X-Span-Export:-}|${PID:-}|%t|%logger|%m%n"
+server.tomcat.accesslog.enabled: true
+server.tomcat.accesslog.prefix: "${spring.application.name}"
+server.tomcat.accesslog.directory: "/logs/accesslogs"
+
+
+management:
+  port: ${MPORT}
+
+
+eureka:
+  client.serviceUrl.defaultZone: http://ljm:_ljming@39.106.4.242:5001/eureka/
+  instance:
+    preferIpAdderss: true
+    leaseRenwalIntervalInSeconds: 3
+
+# timout
+hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 5000
